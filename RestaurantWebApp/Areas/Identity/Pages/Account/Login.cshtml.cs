@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using RestaurantWebApp.Areas.Identity.Data;
 using System.Security.Claims;
+using NuGet.Packaging;
 
 namespace RestaurantWebApp.Areas.Identity.Pages.Account
 {
@@ -124,11 +125,19 @@ namespace RestaurantWebApp.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    var claims = new Claim[]
+                    var claims = new List<Claim>
                     {
                         new Claim("amr", "pwd"),
                         //new Claim("EmployeeNumber", "1")
                     };
+
+                    var roles = await _signInManager.UserManager.GetRolesAsync(user);
+
+                    if (roles.Any())
+                    {
+                        var roleClaim = string.Join(",", roles);
+                        claims.Add(new Claim("Roles", roleClaim));
+                    }
 
                     await _signInManager.SignInWithClaimsAsync(user, Input.RememberMe, new Claim[] { new Claim("amr", "pwd")});
 
