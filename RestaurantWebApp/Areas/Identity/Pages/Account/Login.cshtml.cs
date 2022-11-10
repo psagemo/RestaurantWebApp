@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using RestaurantWebApp.Areas.Identity.Data;
+using System.Security.Claims;
 
 namespace RestaurantWebApp.Areas.Identity.Pages.Account
 {
@@ -112,7 +113,28 @@ namespace RestaurantWebApp.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+
+                var user = await _signInManager.UserManager.FindByNameAsync(Input.Email);
+                if (user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return Page();
+                }
+
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                if (result.Succeeded)
+                {
+                    var claims = new Claim[]
+                    {
+                        new Claim("amr", "pwd"),
+                        //new Claim("EmployeeNumber", "1")
+                    };
+
+                    await _signInManager.SignInWithClaimsAsync(user, Input.RememberMe, new Claim[] { new Claim("amr", "pwd")});
+
+                    _logger.LogInformation("User logged in.");
+                    return LocalRedirect(returnUrl);
+                }
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
