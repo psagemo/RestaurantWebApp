@@ -11,8 +11,16 @@ namespace RestaurantWebApp.Controllers
             return View();
         }
 
-        [Authorize(Policy = "AdminOnly")]
+        //[Authorize(Policy = "AdminOnly")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Admin()
+        {
+            return View();
+        }
+
+        //[Authorize(Policy = "AdminOnly")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult MenuItems()
         {
             return View();
         }
