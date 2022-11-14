@@ -24,6 +24,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     }
 
     public DbSet<RestaurantWebApp.Models.MenuItem> MenuItem { get; set; }
+
+    public DbSet<RestaurantWebApp.Models.Reservation> Reservation { get; set; }
 }
 
 internal class ApplicationUserEntityConfiguration : IEntityTypeConfiguration<ApplicationUser>

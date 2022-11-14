@@ -29,7 +29,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>                        
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Menu" asp-action="Menu">Menu</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Menu" asp-action="">Menu</a>
                         </li>
                         @* Signed-in-only navbar *@
                         @if (SignInManager.IsSignedIn(User))
@@ -38,23 +38,22 @@
                             @if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="EditMenu">Edit Menu</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="MenuItems" asp-action="Index">Edit Menu</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Reservations">Reservations</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Reservations" asp-action="">Reservations</a>
                                 </li>                                
                             }
                             @* User navbar *@
                             else
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Booking">Make a Reservation</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Reservations" asp-action="Create">Make a Reservation</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="MyReservations">My Reservations</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Reservations" asp-action="Index">My Reservations</a>
                                 </li>
-                            }
-                            
+                            }                            
                         }
                     </ul>
                 </div>

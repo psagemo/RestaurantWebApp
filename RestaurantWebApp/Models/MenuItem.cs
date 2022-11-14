@@ -25,7 +25,5 @@ namespace RestaurantWebApp.Models
         [DisplayName("Price")]
         [Required(ErrorMessage = "This Field Is Required.")]
         public int Price { get; set; }
-
-
     }
 }
