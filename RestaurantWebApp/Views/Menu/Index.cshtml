@@ -5,43 +5,26 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Menu</h1>
+<h1 id="menu-header">Menu</h1>
 
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImgURL)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImgURL)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>            
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="menu-container">
+    @foreach (var item in Model){
+        <div class="item-container">
+            <h3 class="item-title">@Html.DisplayFor(modelItem => item.Title)</h3>
+            <div class="item-img-container">
+                <img class="item-img" id="@Html.DisplayFor(modelItem => item.Title)" src="@Html.DisplayFor(modelItem => item.ImgURL)" alt="@Html.DisplayFor(modelItem => item.Title)">
+            </div>
+            <div class="item-desc-container">
+                <p class="item-desc">
+                    @Html.DisplayFor(modelItem => item.Description)
+                </p>
+                <p class="item-price">
+                    @Html.DisplayFor(modelItem => item.Price) SEK
+                </p>
+            </div>
+            
+        </div>        
+    }
+</div>

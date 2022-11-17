@@ -12,8 +12,8 @@ using RestaurantWebApp.Areas.Identity.Data;
 namespace RestaurantWebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221111105609_Reservation")]
-    partial class Reservation
+    [Migration("20221114134207_Reservations")]
+    partial class Reservations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -264,6 +264,34 @@ namespace RestaurantWebApp.Migrations
                     b.ToTable("MenuItem");
                 });
 
+            modelBuilder.Entity("RestaurantWebApp.Models.Reservation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("AdditionalInformation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Guests")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reservation");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -313,6 +341,17 @@ namespace RestaurantWebApp.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("RestaurantWebApp.Models.Reservation", b =>
+                {
+                    b.HasOne("RestaurantWebApp.Areas.Identity.Data.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

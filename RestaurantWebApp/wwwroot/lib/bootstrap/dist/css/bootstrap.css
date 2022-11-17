@@ -1947,19 +1947,19 @@ progress {
   }
 }
 .table {
-  --bs-table-bg: transparent;
-  --bs-table-accent-bg: transparent;
-  --bs-table-striped-color: #212529;
-  --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
-  --bs-table-active-color: #212529;
-  --bs-table-active-bg: rgba(0, 0, 0, 0.1);
-  --bs-table-hover-color: #212529;
-  --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
-  width: 100%;
-  margin-bottom: 1rem;
-  color: #212529;
-  vertical-align: top;
-  border-color: #dee2e6;
+    --bs-table-bg: transparent;
+    --bs-table-accent-bg: transparent;
+    --bs-table-striped-color: #212529;
+    --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
+    --bs-table-active-color: #212529;
+    --bs-table-active-bg: rgba(0, 0, 0, 0.1);
+    --bs-table-hover-color: #212529;
+    --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    vertical-align: top;
+    border-color: #dee2e6;
 }
 .table > :not(caption) > * > * {
   padding: 0.5rem 0.5rem;
@@ -3876,7 +3876,7 @@ textarea.form-control-lg {
 .nav-link {
   display: block;
   padding: 0.5rem 1rem;
-  color: #0d6efd;
+/*  color: #0d6efd;*/
   text-decoration: none;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
 }
@@ -3886,7 +3886,7 @@ textarea.form-control-lg {
   }
 }
 .nav-link:hover, .nav-link:focus {
-  color: #0a58ca;
+    color: #f2960d;
 }
 .nav-link.disabled {
   color: #6c757d;
@@ -4378,7 +4378,7 @@ textarea.form-control-lg {
   color: rgba(0, 0, 0, 0.9);
 }
 .navbar-light .navbar-nav .nav-link {
-  color: rgba(0, 0, 0, 0.55);
+  /*color: rgba(0, 0, 0, 0.55);*/
 }
 .navbar-light .navbar-nav .nav-link:hover, .navbar-light .navbar-nav .nav-link:focus {
   color: rgba(0, 0, 0, 0.7);
@@ -4400,11 +4400,12 @@ textarea.form-control-lg {
 .navbar-light .navbar-text {
   color: rgba(0, 0, 0, 0.55);
 }
-.navbar-light .navbar-text a,
-.navbar-light .navbar-text a:hover,
-.navbar-light .navbar-text a:focus {
-  color: rgba(0, 0, 0, 0.9);
-}
+    .navbar-light .navbar-text a,
+    .navbar-light .navbar-text a:hover,
+    .navbar-light .navbar-text a:focus {
+        /*color: rgba(0, 0, 0, 0.9);*/
+        color: #e6e6e6;
+    }
 
 .navbar-dark .navbar-brand {
   color: #fff;
