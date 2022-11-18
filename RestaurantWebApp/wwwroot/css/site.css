@@ -19,15 +19,11 @@ header {
 }
 
 body {
-    margin-bottom: 60px;
+    margin: 59px 0;
     background-color: #0d0d0d;
     color: #d9d9d9;
     text-transform: uppercase;
     font-family: 'Kanit', sans-serif;
-}
-
-.container {
-    padding-top: 3.5em;
 }
 
 table {
@@ -60,14 +56,26 @@ table tr {
     margin-top: 1em;
 }
 
-.w-40 {
+/*.w-40 {
     width: 40%;
+}*/
+
+/* ----------- Flexbox ----------- */
+
+.container {
+    justify-content: space-between;
 }
 
-/* ----------- Login Page ----------- */
+/* ----------- Login/logged in Page ----------- */
 
 .form-floating {
     margin: 2em 0;
+}
+
+#manage {
+    margin-top: 2px; 
+    font-weight: 500;
+    text-transform:capitalize;
 }
 
 /* ----------- Navbar ----------- */
@@ -98,12 +106,26 @@ nav {
     color: #e99663;
 }
 
-    /* ----------- Icons ----------- */
-    i {
-        display: inline-block;
-        vertical-align: middle;
-        padding-bottom: .2em;
-    }
+/* ----------- Forms ----------- */
+
+.label-on-light {
+    color: #2c2624;
+}
+
+label-on-dark {
+
+}
+
+form label {
+    
+}
+
+/* ----------- Icons ----------- */
+i {
+    display: inline-block;
+    vertical-align: middle;
+    padding-bottom: .2em;
+}
 
 @font-face {
     font-family: 'Material Symbols Outlined';
@@ -147,12 +169,13 @@ nav {
 }
 
 .item-container {
-    width: 60%;
+    /*width: 60%;*/
+    
     height: auto;
     text-align: center;
     color: #e6e6e6;
     padding: 10px 0 10px 0;
-    margin: 30px auto 10px auto;
+    margin: 10px auto 10px auto;
     border-top: 3px solid #e6e6e6;
     /*width: 700px;
     height: auto;
@@ -177,7 +200,9 @@ nav {
 
 .item-img {
     display: block;
-    max-height: 400px;
+    object-fit: cover;
+    max-width: 500px;
+    height: 350px;
     margin-left: auto;
     margin-right: auto;
     border-radius: 1em;
@@ -186,7 +211,8 @@ nav {
 
 .item-desc-container {
     padding: .5em;
-    margin: 1em auto 1em auto;
+    margin: 1em auto 0 auto;
+    max-width: 500px;
     /*background-color: #d9d9d9;
     border-radius: 0 30px 0 30px;
     width: 70%;  
@@ -203,3 +229,38 @@ nav {
 .item-price {
 }
 
+/* ----------- Media Queries ----------- */
+
+@media screen and (max-width: 700px) {
+    body {
+        margin: 90px 0;
+    }
+
+    .nav a {
+        font-size: 0;
+        margin-right: 10%;
+    }
+
+    .nav li {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+}
+
+@media screen and (max-width: 580px) {
+    body {
+        margin: 90px 0;
+    }
+
+    .nav a {
+        font-size: 0;
+        margin-right: 10%;
+    }
+
+    .nav li {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+}

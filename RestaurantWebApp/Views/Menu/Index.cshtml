@@ -9,22 +9,27 @@
 
 
 
-<div class="menu-container">
-    @foreach (var item in Model){
-        <div class="item-container">
-            <h3 class="item-title">@Html.DisplayFor(modelItem => item.Title)</h3>
-            <div class="item-img-container">
-                <img class="item-img" id="@Html.DisplayFor(modelItem => item.Title)" src="@Html.DisplayFor(modelItem => item.ImgURL)" alt="@Html.DisplayFor(modelItem => item.Title)">
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="item-container col-sm">
+                <h3 class="item-title">@Html.DisplayFor(modelItem => item.Title)</h3>
+                <div class="item-img-container">
+                    <img class="item-img" id="@Html.DisplayFor(modelItem => item.Title)" src="@Html.DisplayFor(modelItem => item.ImgURL)" alt="@Html.DisplayFor(modelItem => item.Title)">
+                </div>
+                <div class="item-desc-container">
+                    <p class="item-desc">
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </p>
+                    <p class="item-price">
+                        @Html.DisplayFor(modelItem => item.Price) SEK
+                    </p>
+                </div>
+
             </div>
-            <div class="item-desc-container">
-                <p class="item-desc">
-                    @Html.DisplayFor(modelItem => item.Description)
-                </p>
-                <p class="item-price">
-                    @Html.DisplayFor(modelItem => item.Price) SEK
-                </p>
-            </div>
-            
-        </div>        
-    }
+        }
+    </div>
+    
 </div>
+
