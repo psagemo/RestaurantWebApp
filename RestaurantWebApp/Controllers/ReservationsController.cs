@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration.UserSecrets;
 using RestaurantWebApp.Areas.Identity.Data;
+using RestaurantWebApp.Migrations;
 using RestaurantWebApp.Models;
 
 namespace RestaurantWebApp.Controllers
@@ -16,31 +18,20 @@ namespace RestaurantWebApp.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public ReservationsController(ApplicationDbContext context)
+
+        private UserManager<ApplicationUser> _userManager;
+
+        public ReservationsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
-
-        //// Get logged in user
-        //[HttpGet]
-        //[Route("ApplicationUser/{id}")]
-        //public async Task<IActionResult> getUserId(Guid id)
-        //{
-        //    return Ok(new { userID = id });
-        //}
-
-        //[HttpGet]
-        //[Route("Users/current")]
-        //public async Task<IActionResult> getLoggedInUserId()
-        //{
-        //    Guid id = new Guid(HttpContext.User.FindFirstValue("userId"));
-        //    return Ok(new { userID = id });
-        //}
 
         // GET: Reservations
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Reservation.Include(r => r.User);
+            ViewData["UserId"] = User.FindFirstValue(ClaimTypes.NameIdentifier);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -66,7 +57,8 @@ namespace RestaurantWebApp.Controllers
         // GET: Reservations/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+            //(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            ViewData["UserId"] = User.FindFirstValue(ClaimTypes.NameIdentifier);
             return View();
         }
 
@@ -75,26 +67,27 @@ namespace RestaurantWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Guests,Date,AdditionalInformation,UserId")] Reservation reservation)
+        public async Task<IActionResult> Create([Bind("Id,Guests,Date,Time,AdditionalInformation,UserId")] Reservation reservation)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(reservation);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["UserId"] = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            //ViewData["UserId"] = HttpContext.User.FindFirstValue("UserId");
-            //ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", reservation.UserId);
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            ViewData["UserId"] = userId;
+            var currentUser = _context.Users.Single(u => u.Id == ViewData["UserId"]);
+            //if (ModelState.IsValid)
+            //{
+            //    _context.Add(reservation);
+            //    await _context.SaveChangesAsync();
+            //    reservation.User = currentUser;
+            //    return RedirectToAction(nameof(Index));
+            //}
+            _context.Add(reservation);
+            await _context.SaveChangesAsync();
+            reservation.User = currentUser;
+            return RedirectToAction(nameof(Index));
+
+            ApplicationUser user = _context.Users.Single(u => u.Id == reservation.UserId);
+                  
             return View(reservation);
         }
-
-        //public async Task<IActionResult> getLoggedInUserId()
-        //{
-        //    Guid id = new Guid(HttpContext.User.FindFirstValue("userId"));
-        //    return Ok(new { userID = id });
-        //}
-
 
         // GET: Reservations/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -118,34 +111,55 @@ namespace RestaurantWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Guests,Date,AdditionalInformation,UserId")] Reservation reservation)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Guests,Date,Time,AdditionalInformation,UserId")] Reservation reservation)
         {
             if (id != reservation.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
+            //{
+            //    try
+            //    {
+            //        _context.Update(reservation);
+            //        await _context.SaveChangesAsync();
+            //    }
+            //    catch (DbUpdateConcurrencyException)
+            //    {
+            //        if (!ReservationExists(reservation.Id))
+            //        {
+            //            return NotFound();
+            //        }
+            //        else
+            //        {
+            //            throw;
+            //        }
+            //    }
+            //    return RedirectToAction(nameof(Index));
+            //}
+
+            try
             {
-                try
-                {
-                    _context.Update(reservation);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ReservationExists(reservation.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.Update(reservation);
+                await _context.SaveChangesAsync();
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", reservation.UserId);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ReservationExists(reservation.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
+
+            ClaimsPrincipal currentUser = User;
+            var user = await _userManager.GetUserAsync(User);
+            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", reservation.UserId);
             return View(reservation);
         }
 

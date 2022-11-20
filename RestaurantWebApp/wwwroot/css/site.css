@@ -26,12 +26,22 @@ body {
     font-family: 'Kanit', sans-serif;
 }
 
-table {
+.table-container {
+    overflow-x:auto;
+}
+
+.tables {
     color: #d9d9d9;
 }
 
-table tr {
+.Tables tr {
     border-bottom: 1px solid #d9d9d9;
+}
+
+.Tables th, td {
+    padding: 20px 20px 20px 0 ;
+    margin-right: 20px;
+
 }
 
 .center {

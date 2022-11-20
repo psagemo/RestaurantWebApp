@@ -1,10 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using RestaurantWebApp.Areas.Identity.Data
-
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
-
-@model IEnumerable<RestaurantWebApp.Models.Reservation>
+﻿@model IEnumerable<RestaurantWebApp.Models.Reservation>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,51 +7,121 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Guests)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AdditionalInformation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model) {
-            var user = UserManager.GetUserId;
-            if (item.UserId == user.ToString()){
+
+@if (User.IsInRole("Admin")){
+    <h4>Admin View</h4>
+    <p>
+        <a asp-action="Create">Create New Reservation</a>
+    </p>
+    <div class="table-container">
+        <table class="Tables">
+            <thead>
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Guests)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Date)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AdditionalInformation)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.User.Id)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Guests)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Date)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Time)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AdditionalInformation)
+                    </th>                
+                    <th>
+                        @Html.DisplayNameFor(model => model.User.Email)
+                    </th>
+                    <th></th>
                 </tr>
-            }        
-        }
-    </tbody>
-</table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Guests)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Time)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AdditionalInformation)
+                        </td>                    
+                        <td>
+                            @Html.DisplayFor(modelItem => item.User.Email)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    
+}
+
+
+else {
+    <p>
+        <a asp-action="Create">Make New Reservation</a>
+    </p>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Guests)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Date)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Time)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AdditionalInformation)
+                    </th>
+                
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    @if (item.UserId == ViewData["UserId"].ToString())
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Guests)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Date)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Time)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AdditionalInformation)
+                            </td>
+
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }                
+                }
+            </tbody>
+        </table>
+    </div>    
+}
+
+

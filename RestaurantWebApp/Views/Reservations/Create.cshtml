@@ -5,61 +5,62 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@*<h1 class="center">Create</h1>*@
-
 <h2 class="center">Make a Reservation</h2>
+
 <hr />
 <div class="row">
     <div class="col-sm"></div>
     <div class="col-lg">
-        @using (Html.BeginForm("Create", "Reservations", FormMethod.Post, new { onsubmit = "return setDateTime()" }))
-        {
-            <form asp-action="Create" id="createForm">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Guests" class="control-label"></label>
-                    <input type="number" asp-for="Guests" required min="1" max="8" class="form-control" />
-                    <span asp-validation-for="Guests" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="control-label"> Select a Date</label>
-                    <input name="Date" type="date" id="res-date" class="form-control" />
-                </div>
-                <div class="form-group">                    
-                    <label class="control-label"> Select a Time</label>
-                    <input name="Time" class="form-control" id="res-time" required type="time" min="17:00:00" max="21:00:00" step="3600" />                   
-                    <input id="dt-hidden" type="hidden" asp-for="Date" />
-                    <span asp-validation-for="Date" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="AdditionalInformation" class="control-label"></label>
-                    <textarea asp-for="AdditionalInformation" class="form-control custom-textarea"></textarea>
-                    <span asp-validation-for="AdditionalInformation" class="text-danger"></span>
-                </div>
-                <input type="hidden" asp-for="UserId" asp-items="ViewBag.UserId" value="@ViewData["UserId"]" />
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-light custom-btn" />
-                </div>
-            </form>
-        }        
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Guests" class="control-label"></label>
+                <input asp-for="Guests" class="form-control" />
+                <span asp-validation-for="Guests" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Time" class="control-label"></label>
+                @*<input asp-for="Time" class="form-control" />*@
+                <span asp-validation-for="Time" class="text-danger"></span>
+                <select class="form-control" name="time" asp-for="Time" required>
+                    <option value="17:30:00">17:30</option>
+                    <option value="18:00:00">18:00</option>
+                    <option value="18:30:00">18:30</option>
+                    <option value="19:00:00">19:00</option>
+                    <option value="19:30:00">19:30</option>
+                    <option value="20:00:00">20:00</option>
+                    <option value="20:30:00">20:30</option>
+                    <option value="21:00:00">21:00</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdditionalInformation" class="control-label"></label>
+                <input asp-for="AdditionalInformation" class="form-control" />
+                <span asp-validation-for="AdditionalInformation" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <select asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
+            </div>*@
+            <input type="hidden" asp-for="UserId" asp-items="ViewBag.UserId" value="@ViewData["UserId"]" />
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-light custom-btn" />
+            </div>
+        </form>
     </div>
     <div class="col-sm"></div>
 </div>
-
+@*
+<div>
+    <a asp-action="Index">Go Back</a>
+</div>
+*@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
-    <script>
-        function setDateTime() {
-            var dateOnly = document.getElementById("res-date").value;
-            var timeOnly = document.getElementById("res-time").value;
-            var combinedDateTime = dateOnly + " " + timeOnly;
-            let dt = Date.parse(combinedDateTime);
-            console.log("dt: " + dt);
-            document.getElementById("dt-hidden").value = dt;
-        }        
-    </script>
-
-
 }

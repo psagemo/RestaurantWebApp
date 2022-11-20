@@ -9,21 +9,29 @@ namespace RestaurantWebApp.Models
     {
         [Key]
         public int Id { get; set; }
-        
+
         [DisplayName("Number of Guests")]
         [Required(ErrorMessage = "This Field Is Required.")]
         public int Guests { get; set; }
 
-        [DisplayName("DateTime")]
+        [DisplayName("Date")]
         [Required(ErrorMessage = "This Field Is Required.")]
-        public DateTime? Date { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime Date { get; set; }        
+
+        [DisplayName("Time")]
+        [Required(ErrorMessage = "This Field Is Required.")]
+        public string Time { get; set; }
 
         [DisplayName("Additional Information")]
         public string? AdditionalInformation { get; set; }
 
         public string UserId { get; set; }
 
-        [ForeignKey("UserId")]
+        //[ForeignKey("UserId")]
+
         public virtual ApplicationUser User { get; set; }
     }
 }
+
