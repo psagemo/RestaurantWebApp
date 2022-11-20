@@ -5,44 +5,61 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+@*<h1 class="center">Create</h1>*@
 
-<h4>Reservation</h4>
+<h2 class="center">Make a Reservation</h2>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Guests" class="control-label"></label>
-                <input asp-for="Guests" class="form-control" />
-                <span asp-validation-for="Guests" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateTime" class="control-label"></label>
-                <input asp-for="DateTime" class="form-control" />                
-                <span asp-validation-for="DateTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AdditionalInformation" class="control-label"></label>
-                <input asp-for="AdditionalInformation" class="form-control" />
-                <span asp-validation-for="AdditionalInformation" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <!--<label asp-for="UserId" class="control-label"></label>-->
-                <input type="hidden" asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId"/>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+    <div class="col-sm"></div>
+    <div class="col-lg">
+        @using (Html.BeginForm("Create", "Reservations", FormMethod.Post, new { onsubmit = "return setDateTime()" }))
+        {
+            <form asp-action="Create" id="createForm">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Guests" class="control-label"></label>
+                    <input type="number" asp-for="Guests" required min="1" max="8" class="form-control" />
+                    <span asp-validation-for="Guests" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label"> Select a Date</label>
+                    <input name="Date" type="date" id="res-date" class="form-control" />
+                </div>
+                <div class="form-group">                    
+                    <label class="control-label"> Select a Time</label>
+                    <input name="Time" class="form-control" id="res-time" required type="time" min="17:00:00" max="21:00:00" step="3600" />                   
+                    <input id="dt-hidden" type="hidden" asp-for="Date" />
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AdditionalInformation" class="control-label"></label>
+                    <textarea asp-for="AdditionalInformation" class="form-control custom-textarea"></textarea>
+                    <span asp-validation-for="AdditionalInformation" class="text-danger"></span>
+                </div>
+                <input type="hidden" asp-for="UserId" asp-items="ViewBag.UserId" value="@ViewData["UserId"]" />
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-light custom-btn" />
+                </div>
+            </form>
+        }        
     </div>
+    <div class="col-sm"></div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        function setDateTime() {
+            var dateOnly = document.getElementById("res-date").value;
+            var timeOnly = document.getElementById("res-time").value;
+            var combinedDateTime = dateOnly + " " + timeOnly;
+            let dt = Date.parse(combinedDateTime);
+            console.log("dt: " + dt);
+            document.getElementById("dt-hidden").value = dt;
+        }        
+    </script>
+
+
 }

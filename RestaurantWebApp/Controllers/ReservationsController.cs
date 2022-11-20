@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using RestaurantWebApp.Areas.Identity.Data;
 using RestaurantWebApp.Models;
 
@@ -18,6 +20,22 @@ namespace RestaurantWebApp.Controllers
         {
             _context = context;
         }
+
+        //// Get logged in user
+        //[HttpGet]
+        //[Route("ApplicationUser/{id}")]
+        //public async Task<IActionResult> getUserId(Guid id)
+        //{
+        //    return Ok(new { userID = id });
+        //}
+
+        //[HttpGet]
+        //[Route("Users/current")]
+        //public async Task<IActionResult> getLoggedInUserId()
+        //{
+        //    Guid id = new Guid(HttpContext.User.FindFirstValue("userId"));
+        //    return Ok(new { userID = id });
+        //}
 
         // GET: Reservations
         public async Task<IActionResult> Index()
@@ -57,7 +75,7 @@ namespace RestaurantWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Guests,DateTime,AdditionalInformation,UserId")] Reservation reservation)
+        public async Task<IActionResult> Create([Bind("Id,Guests,Date,AdditionalInformation,UserId")] Reservation reservation)
         {
             if (ModelState.IsValid)
             {
@@ -65,9 +83,18 @@ namespace RestaurantWebApp.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", reservation.UserId);
+            ViewData["UserId"] = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //ViewData["UserId"] = HttpContext.User.FindFirstValue("UserId");
+            //ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", reservation.UserId);
             return View(reservation);
         }
+
+        //public async Task<IActionResult> getLoggedInUserId()
+        //{
+        //    Guid id = new Guid(HttpContext.User.FindFirstValue("userId"));
+        //    return Ok(new { userID = id });
+        //}
+
 
         // GET: Reservations/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -91,7 +118,7 @@ namespace RestaurantWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Guests,DateTime,AdditionalInformation,UserId")] Reservation reservation)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Guests,Date,AdditionalInformation,UserId")] Reservation reservation)
         {
             if (id != reservation.Id)
             {

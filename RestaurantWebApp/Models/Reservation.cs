@@ -14,9 +14,9 @@ namespace RestaurantWebApp.Models
         [Required(ErrorMessage = "This Field Is Required.")]
         public int Guests { get; set; }
 
-        [DisplayName("Session")]
+        [DisplayName("DateTime")]
         [Required(ErrorMessage = "This Field Is Required.")]
-        public DateTime DateTime { get; set; }
+        public DateTime? Date { get; set; }
 
         [DisplayName("Additional Information")]
         public string? AdditionalInformation { get; set; }
