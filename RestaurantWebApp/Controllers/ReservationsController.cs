@@ -57,7 +57,6 @@ namespace RestaurantWebApp.Controllers
         // GET: Reservations/Create
         public IActionResult Create()
         {
-            //(User.FindFirstValue(ClaimTypes.NameIdentifier));
             ViewData["UserId"] = User.FindFirstValue(ClaimTypes.NameIdentifier);
             return View();
         }
@@ -95,7 +94,7 @@ namespace RestaurantWebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", reservation.UserId);
+            ViewData["UserId"] = User.FindFirstValue(ClaimTypes.NameIdentifier);
             return View(reservation);
         }
 
@@ -131,7 +130,8 @@ namespace RestaurantWebApp.Controllers
 
             ClaimsPrincipal currentUser = User;
             var user = await _userManager.GetUserAsync(User);
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", reservation.UserId);
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            ViewData["UserId"] = userId;
             return View(reservation);
         }
 
