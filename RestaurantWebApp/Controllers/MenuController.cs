@@ -25,24 +25,6 @@ namespace RestaurantWebApp.Controllers
               return View(await _context.MenuItem.ToListAsync());
         }
 
-        //// GET: Menu/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null || _context.MenuItem == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var menuItem = await _context.MenuItem
-        //        .FirstOrDefaultAsync(m => m.MenuItemId == id);
-        //    if (menuItem == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(menuItem);
-        //}      
-
         private bool MenuItemExists(int id)
         {
           return _context.MenuItem.Any(e => e.MenuItemId == id);

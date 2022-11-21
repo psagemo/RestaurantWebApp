@@ -29,8 +29,6 @@ namespace RestaurantWebApp.Models
 
         public string UserId { get; set; }
 
-        //[ForeignKey("UserId")]
-
         public virtual ApplicationUser User { get; set; }
     }
 }

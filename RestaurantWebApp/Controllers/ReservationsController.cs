@@ -72,13 +72,6 @@ namespace RestaurantWebApp.Controllers
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             ViewData["UserId"] = userId;
             var currentUser = _context.Users.Single(u => u.Id == ViewData["UserId"]);
-            //if (ModelState.IsValid)
-            //{
-            //    _context.Add(reservation);
-            //    await _context.SaveChangesAsync();
-            //    reservation.User = currentUser;
-            //    return RedirectToAction(nameof(Index));
-            //}
             _context.Add(reservation);
             await _context.SaveChangesAsync();
             reservation.User = currentUser;
@@ -117,27 +110,6 @@ namespace RestaurantWebApp.Controllers
             {
                 return NotFound();
             }
-
-            //if (ModelState.IsValid)
-            //{
-            //    try
-            //    {
-            //        _context.Update(reservation);
-            //        await _context.SaveChangesAsync();
-            //    }
-            //    catch (DbUpdateConcurrencyException)
-            //    {
-            //        if (!ReservationExists(reservation.Id))
-            //        {
-            //            return NotFound();
-            //        }
-            //        else
-            //        {
-            //            throw;
-            //        }
-            //    }
-            //    return RedirectToAction(nameof(Index));
-            //}
 
             try
             {
