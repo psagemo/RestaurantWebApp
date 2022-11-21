@@ -4,21 +4,25 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@if (User.IsInRole("Admin")) {
+    <h1 class="center">Reservations</h1>
+}
+else {
+    <h1 class="center">My Reservations</h1>
+}
 
-<h1>Index</h1>
 
 
 @if (User.IsInRole("Admin")){
-    <h4>Admin View</h4>
-    <p>
-        <a asp-action="Create">Create New Reservation</a>
+    <p class="center">
+        <a class="btn btn-dark" asp-action="Create">Create New Reservation</a>
     </p>
-    <div class="table-container">
-        <table class="Tables">
+    <div class="table-container center">
+        <table class="Tables center">
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.Guests)
+                        Guests
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Date)
@@ -55,9 +59,9 @@
                             @Html.DisplayFor(modelItem => item.User.Email)
                         </td>
                         <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            <a class="btn btn-dark" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a class="btn btn-dark" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a class="btn btn-dark" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                         </td>
                     </tr>
                 }
@@ -69,15 +73,13 @@
 
 
 else {
-    <p>
-        <a asp-action="Create">Make New Reservation</a>
-    </p>
-    <div class="table-container">
-        <table>
+
+    <div class="table-container center">
+        <table class="center">
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.Guests)
+                        Guests
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Date)
@@ -112,9 +114,9 @@ else {
                             </td>
 
                             <td>
-                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                <a class="btn btn-dark" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                <a class="btn btn-dark" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                <a class="btn btn-dark" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                             </td>
                         </tr>
                     }                

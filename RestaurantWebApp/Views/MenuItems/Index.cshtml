@@ -5,15 +5,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1 class="center">Menu Items</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
+<p class="center">
+    <a class="btn btn-dark" asp-action="Create">Create New</a>
 </p>
 
 <div class="table-container">
 
-    <table class="Tables">
+    <table class="Tables center">
         <thead>
             <tr>
                 <th>
@@ -48,9 +48,9 @@
                         @Html.DisplayFor(modelItem => item.Price)
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.MenuItemId">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.MenuItemId">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.MenuItemId">Delete</a>
+                        <a class="btn btn-dark" asp-action="Edit" asp-route-id="@item.MenuItemId">Edit</a> |
+                        <a class="btn btn-dark" asp-action="Details" asp-route-id="@item.MenuItemId">Details</a> |
+                        <a class="btn btn-dark" asp-action="Delete" asp-route-id="@item.MenuItemId">Delete</a>
                     </td>
                 </tr>
             }
